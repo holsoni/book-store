@@ -2,6 +2,7 @@ package com.example.bookstore;
 
 import com.example.bookstore.model.Book;
 import com.example.bookstore.service.BookService;
+import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,16 +25,15 @@ public class BookStoreApplication {
 
     @Bean
     public CommandLineRunner commandLineRunner() {
-        return new CommandLineRunner() {
-            @Override
-            public void run(String... args) throws Exception {
-                Book bestBook = new Book();
-                bestBook.setTitle("Sapiens");
-                bestBook.setAuthor("Yuval Harari");
-                bestBook.setIsbn("9780062316097");
-                bookService.save(bestBook);
-                bookService.findAll().forEach(System.out::println);
-            }
+        return args -> {
+            Book bestBook = new Book();
+            bestBook.setTitle("Sapiens");
+            bestBook.setAuthor("Yuval Harari");
+            bestBook.setIsbn("9780062316097");
+            bestBook.setPrice(BigDecimal.valueOf(435));
+
+            bookService.save(bestBook);
+            bookService.findAll().forEach(System.out::println);
         };
     }
 }
