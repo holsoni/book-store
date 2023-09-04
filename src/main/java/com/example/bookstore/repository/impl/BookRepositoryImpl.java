@@ -3,6 +3,7 @@ package com.example.bookstore.repository.impl;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.repository.BookRepository;
 import java.util.List;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -42,11 +43,21 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> findAll() {
+    public List<Book> getAll() {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM Book", Book.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all books from the DB", e);
+            throw new RuntimeException("Can't get all books from the DB!", e);
+        }
+    }
+
+    @Override
+    public Optional<Book> findById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return Optional.ofNullable(session.find(Book.class, id));
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get book with id {"
+                    + id + "] from the DB!", e);
         }
     }
 }
