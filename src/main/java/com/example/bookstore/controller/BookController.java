@@ -25,7 +25,7 @@ public class BookController {
 
     @PostMapping
     public BookDto create(@RequestBody CreateBookRequestDto requestDto) {
-        return bookService.createBook(requestDto);
+        return bookService.create(requestDto);
     }
 
     @GetMapping("/{id}")
