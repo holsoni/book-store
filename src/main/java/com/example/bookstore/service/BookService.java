@@ -5,7 +5,7 @@ import com.example.bookstore.dto.CreateBookRequestDto;
 import java.util.List;
 
 public interface BookService {
-    BookDto createBook(CreateBookRequestDto createBookRequestDto);
+    BookDto create(CreateBookRequestDto createBookRequestDto);
 
     List<BookDto> getAll();
 

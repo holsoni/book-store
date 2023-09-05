@@ -1,5 +1,6 @@
 package com.example.bookstore.repository.impl;
 
+import com.example.bookstore.exception.DataProcessingException;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.repository.BookRepository;
 import java.util.List;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class BookRepositoryImpl implements BookRepository {
-
     private final SessionFactory sessionFactory;
 
     @Autowired
@@ -34,7 +34,7 @@ public class BookRepositoryImpl implements BookRepository {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't add book: " + book + " to the DB!", e);
+            throw new DataProcessingException("Can't add book: " + book + " to the DB!", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -47,7 +47,7 @@ public class BookRepositoryImpl implements BookRepository {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM Book", Book.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all books from the DB!", e);
+            throw new DataProcessingException("Can't get all books from the DB!", e);
         }
     }
 
@@ -56,7 +56,7 @@ public class BookRepositoryImpl implements BookRepository {
         try (Session session = sessionFactory.openSession()) {
             return Optional.ofNullable(session.find(Book.class, id));
         } catch (Exception e) {
-            throw new RuntimeException("Can't get book with id {"
+            throw new DataProcessingException("Can't get book with id {"
                     + id + "] from the DB!", e);
         }
     }
