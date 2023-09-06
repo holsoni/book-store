@@ -52,7 +52,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto updateById(Long id, UpdateBookRequestDto updateBookRequestDto) {
+    public BookDto update(Long id, UpdateBookRequestDto updateBookRequestDto) {
         Optional<Book> fromDb = bookRepository.findById(id);
         Book updatedBook = bookMapper.toModel(updateBookRequestDto);
         updatedBook.setId(id);
