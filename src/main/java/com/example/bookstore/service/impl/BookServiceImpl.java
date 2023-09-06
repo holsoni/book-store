@@ -11,7 +11,6 @@ import com.example.bookstore.repository.book.BookRepository;
 import com.example.bookstore.repository.book.BookSpecificationBuilder;
 import com.example.bookstore.service.BookService;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -53,7 +52,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto update(Long id, UpdateBookRequestDto updateBookRequestDto) {
-        Optional<Book> fromDb = bookRepository.findById(id);
         Book updatedBook = bookMapper.toModel(updateBookRequestDto);
         updatedBook.setId(id);
         return bookMapper.toDto(bookRepository.save(updatedBook));
