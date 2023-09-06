@@ -8,7 +8,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.ISBN;
 
 @Data
-public class CreateBookRequestDto {
+public class UpdateBookRequestDto {
     @NotNull
     private String title;
     @NotNull
