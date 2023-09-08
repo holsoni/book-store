@@ -6,10 +6,12 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import lombok.Data;
 import org.hibernate.validator.constraints.ISBN;
+import org.hibernate.validator.constraints.Length;
 
 @Data
 public class CreateBookRequestDto {
     @NotNull
+    @Length(min = 5, max = 200)
     private String title;
     @NotNull
     @Author
