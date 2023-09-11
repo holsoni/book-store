@@ -12,12 +12,13 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    private static final String ERRORS = "errors";
+    private static final String ERROR = "error";
     private static final String TIMESTAMP = "timestamp";
     private static final String STATUS = "status";
 
@@ -31,10 +32,19 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         List<String> errors = ex.getBindingResult().getAllErrors().stream()
                         .map(this::getErrorMessage)
                                 .toList();
-        responseBody.put(ERRORS, errors);
+        responseBody.put(ERROR, errors);
         responseBody.put(TIMESTAMP, LocalDateTime.now());
         responseBody.put(STATUS, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(responseBody, headers, status);
+    }
+
+    @ExceptionHandler({ RegistrationException.class})
+    public ResponseEntity<Object> handleException(RegistrationException ex) {
+        Map<String, Object> responseBody = new LinkedHashMap<>();
+        responseBody.put(ERROR, ex.getMessage());
+        responseBody.put(TIMESTAMP, LocalDateTime.now());
+        responseBody.put(STATUS, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(responseBody, HttpStatus.FORBIDDEN);
     }
 
     private String getErrorMessage(ObjectError e) {

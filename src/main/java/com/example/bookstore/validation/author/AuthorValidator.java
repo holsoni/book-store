@@ -1,4 +1,4 @@
-package com.example.bookstore.validation;
+package com.example.bookstore.validation.author;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
