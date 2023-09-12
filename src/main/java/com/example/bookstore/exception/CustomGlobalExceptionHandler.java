@@ -36,7 +36,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @ExceptionHandler(RegistrationException.class)
-    public ErrorResponse handleUserAlreadyRegistered(RegistrationException ex) {
+    protected ErrorResponse handleUserAlreadyRegistered(RegistrationException ex) {
         return new ErrorResponse(
                 List.of(ex.getMessage()),
                 HttpStatus.BAD_REQUEST,
@@ -44,7 +44,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ErrorResponse handleEntityNotFound(EntityNotFoundException ex) {
+    protected ErrorResponse handleEntityNotFound(EntityNotFoundException ex) {
         return new ErrorResponse(
                 List.of(ex.getMessage()),
                 HttpStatus.BAD_REQUEST,
