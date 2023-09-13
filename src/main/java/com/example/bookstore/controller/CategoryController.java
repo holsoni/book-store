@@ -1,6 +1,7 @@
 package com.example.bookstore.controller;
 
 import com.example.bookstore.dto.book.BookDtoWithoutCategoryIds;
+import com.example.bookstore.dto.category.CategoryCreateRequestDto;
 import com.example.bookstore.dto.category.CategoryDto;
 import com.example.bookstore.service.BookService;
 import com.example.bookstore.service.CategoryService;
@@ -35,7 +36,7 @@ public class CategoryController {
             description = "Add new book category to the store")
 
     @PostMapping
-    public CategoryDto createCategory(@RequestBody @Valid CategoryDto categoryDto) {
+    public CategoryDto createCategory(@RequestBody @Valid CategoryCreateRequestDto categoryDto) {
         return categoryService.save(categoryDto);
     }
 
@@ -55,7 +56,7 @@ public class CategoryController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public CategoryDto updateCategory(@PathVariable Long id,
-                                      @RequestBody @Valid CategoryDto categoryDto) {
+                                      @RequestBody @Valid CategoryCreateRequestDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
 
