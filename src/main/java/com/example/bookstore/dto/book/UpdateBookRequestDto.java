@@ -4,6 +4,7 @@ import com.example.bookstore.validation.author.Author;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Set;
 import lombok.Data;
 import org.hibernate.validator.constraints.ISBN;
 import org.hibernate.validator.constraints.Length;
@@ -20,6 +21,7 @@ public class UpdateBookRequestDto {
     @NotNull
     @Min(0)
     private BigDecimal price;
+    private Set<Long> categoryIds;
     private String description;
     private String coverImage;
 }

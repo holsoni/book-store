@@ -1,6 +1,7 @@
 package com.example.bookstore.controller;
 
 import com.example.bookstore.dto.book.BookDto;
+import com.example.bookstore.dto.book.BookDtoWithoutCategoryIds;
 import com.example.bookstore.dto.book.BookSearchParameters;
 import com.example.bookstore.dto.book.CreateBookRequestDto;
 import com.example.bookstore.dto.book.UpdateBookRequestDto;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Online book store", description = "API for managing books")
+@Tag(name = "Book Controller", description = "API for managing books")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/books")
@@ -31,7 +32,7 @@ public class BookController {
 
     @GetMapping
     @Operation(summary = "Get all books", description = "Get all books from the store")
-    public List<BookDto> getAll(Pageable pageable) {
+    public List<BookDtoWithoutCategoryIds> getAll(Pageable pageable) {
         return bookService.getAll(pageable);
     }
 
