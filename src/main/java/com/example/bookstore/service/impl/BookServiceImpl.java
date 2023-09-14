@@ -1,6 +1,7 @@
 package com.example.bookstore.service.impl;
 
 import com.example.bookstore.dto.book.BookDto;
+import com.example.bookstore.dto.book.BookDtoWithoutCategoryIds;
 import com.example.bookstore.dto.book.BookSearchParameters;
 import com.example.bookstore.dto.book.CreateBookRequestDto;
 import com.example.bookstore.dto.book.UpdateBookRequestDto;
@@ -31,9 +32,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> getAll(Pageable pageable) {
+    public List<BookDtoWithoutCategoryIds> getAll(Pageable pageable) {
         return bookRepository.findAll(pageable).stream()
-                .map(bookMapper::toDto)
+                .map(bookMapper::toDtoWithoutCategories)
                 .collect(Collectors.toList());
     }
 
@@ -66,4 +67,10 @@ public class BookServiceImpl implements BookService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long id, Pageable pageable) {
+        return bookRepository.findAllByCategoriesId(id, pageable).stream()
+                .map(bookMapper::toDtoWithoutCategories)
+                .collect(Collectors.toList());
+    }
 }

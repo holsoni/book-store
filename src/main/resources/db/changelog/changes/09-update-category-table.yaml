@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-category-table
+      author: holsoni
+      changes:
+        - addColumn:
+            tableName: category
+            columns:
+              - column:
+                  name: is_deleted
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
