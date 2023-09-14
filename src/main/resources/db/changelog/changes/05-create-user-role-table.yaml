@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user_role-table
+      author: holsoni
+      changes:
+        - createTable:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    reference: user(id)
+                    foreignKeyName: fk_user_role_user_id
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    reference: user(id)
+                    foreignKeyName: fk_user_role_role_id
+                    primaryKey: true
+                    nullable: false

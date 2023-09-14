@@ -1,6 +1,6 @@
-package com.example.bookstore.dto;
+package com.example.bookstore.dto.book;
 
-import com.example.bookstore.validation.Author;
+import com.example.bookstore.validation.author.Author;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -9,11 +9,10 @@ import org.hibernate.validator.constraints.ISBN;
 import org.hibernate.validator.constraints.Length;
 
 @Data
-public class CreateBookRequestDto {
+public class UpdateBookRequestDto {
     @NotNull
     @Length(min = 5, max = 200)
     private String title;
-    @NotNull
     @Author
     private String author;
     @ISBN

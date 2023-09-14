@@ -12,15 +12,12 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    private static final String ERRORS = "errors";
-    private static final String TIMESTAMP = "timestamp";
-    private static final String STATUS = "status";
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
@@ -31,10 +28,27 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         List<String> errors = ex.getBindingResult().getAllErrors().stream()
                         .map(this::getErrorMessage)
                                 .toList();
-        responseBody.put(ERRORS, errors);
-        responseBody.put(TIMESTAMP, LocalDateTime.now());
-        responseBody.put(STATUS, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(responseBody, headers, status);
+        ErrorResponse response = new ErrorResponse(
+                errors,
+                HttpStatus.BAD_REQUEST,
+                LocalDateTime.now());
+        return new ResponseEntity<>(response, status);
+    }
+
+    @ExceptionHandler(RegistrationException.class)
+    protected ErrorResponse handleUserAlreadyRegistered(RegistrationException ex) {
+        return new ErrorResponse(
+                List.of(ex.getMessage()),
+                HttpStatus.BAD_REQUEST,
+                LocalDateTime.now());
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    protected ErrorResponse handleEntityNotFound(EntityNotFoundException ex) {
+        return new ErrorResponse(
+                List.of(ex.getMessage()),
+                HttpStatus.BAD_REQUEST,
+                LocalDateTime.now());
     }
 
     private String getErrorMessage(ObjectError e) {
