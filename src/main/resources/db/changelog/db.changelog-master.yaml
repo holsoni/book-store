@@ -15,3 +15,5 @@ databaseChangeLog:
       file: db/changelog/changes/07-create-category-table.yaml
   - include:
       file: db/changelog/changes/08-create-book_category-table.yaml
+  - include:
+      file: db/changelog/changes/09-update-category-table.yaml
