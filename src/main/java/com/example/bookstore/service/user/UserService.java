@@ -1,4 +1,4 @@
-package com.example.bookstore.service;
+package com.example.bookstore.service.user;
 
 import com.example.bookstore.dto.user.UserRegistrationRequestDto;
 import com.example.bookstore.dto.user.UserResponseDto;

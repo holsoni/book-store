@@ -1,4 +1,4 @@
-package com.example.bookstore.service;
+package com.example.bookstore.service.book;
 
 import com.example.bookstore.dto.book.BookDto;
 import com.example.bookstore.dto.book.BookDtoWithoutCategoryIds;

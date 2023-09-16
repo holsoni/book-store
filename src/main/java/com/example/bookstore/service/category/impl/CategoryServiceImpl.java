@@ -1,4 +1,4 @@
-package com.example.bookstore.service.impl;
+package com.example.bookstore.service.category.impl;
 
 import com.example.bookstore.dto.category.CategoryCreateRequestDto;
 import com.example.bookstore.dto.category.CategoryDto;
@@ -6,8 +6,8 @@ import com.example.bookstore.exception.EntityNotFoundException;
 import com.example.bookstore.mapper.CategoryMapper;
 import com.example.bookstore.model.Category;
 import com.example.bookstore.repository.category.CategoryRepository;
-import com.example.bookstore.service.BookService;
-import com.example.bookstore.service.CategoryService;
+import com.example.bookstore.service.book.BookService;
+import com.example.bookstore.service.category.CategoryService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
