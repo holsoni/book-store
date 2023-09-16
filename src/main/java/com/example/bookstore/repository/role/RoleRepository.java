@@ -1,4 +1,4 @@
-package com.example.bookstore.service;
+package com.example.bookstore.repository.role;
 
 import com.example.bookstore.model.Role;
 import com.example.bookstore.model.RoleName;
