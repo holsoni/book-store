@@ -16,7 +16,7 @@ import com.example.bookstore.repository.cartitem.CartItemRepository;
 import com.example.bookstore.repository.shoppingcart.ShoppingCartRepository;
 import com.example.bookstore.service.shoppingcart.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -29,16 +29,26 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final CartItemMapper cartItemMapper;
 
     @Override
-    public ShoppingCartDto getShoppingCart() {
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(getCurrentUserId())
-                .orElseGet(this::create);
+    public ShoppingCartDto getShoppingCart(Authentication authentication) {
+        User currentUser = (User) authentication.getPrincipal();
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(currentUser.getId())
+                .orElseGet(() -> {
+                    ShoppingCart newCart = new ShoppingCart();
+                    newCart.setUser(currentUser);
+                    return shoppingCartRepository.save(newCart);
+                });
         return shoppingCartMapper.toDto(shoppingCart);
     }
 
     @Override
-    public CartItemDto addToCart(AddCartItemRequestDto requestDto) {
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(getCurrentUserId())
-                .orElseGet(this::create);
+    public CartItemDto addToCart(AddCartItemRequestDto requestDto, Authentication authentication) {
+        User currentUser = (User) authentication.getPrincipal();
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(currentUser.getId())
+                .orElseGet(() -> {
+                    ShoppingCart newCart = new ShoppingCart();
+                    newCart.setUser(currentUser);
+                    return shoppingCartRepository.save(newCart);
+                });
         Book book = bookRepository.findById(requestDto.getBookId()).orElseThrow(
                 () -> new EntityNotFoundException("Sorry! There is no book with id "
                         + requestDto.getBookId()));
@@ -63,17 +73,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cartItemRepository.deleteById(id);
     }
 
-    private ShoppingCart create() {
+    private ShoppingCart create(User user) {
         ShoppingCart shoppingCart = new ShoppingCart();
-        User currentUser = new User();
-        currentUser.setId(getCurrentUserId());
-        shoppingCart.setUser(currentUser);
+        shoppingCart.setUser(user);
         return shoppingCartRepository.save(shoppingCart);
-    }
-
-    private Long getCurrentUserId() {
-        User currentUser = (User) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        return currentUser.getId();
     }
 }

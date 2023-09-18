@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,16 +31,17 @@ public class ShoppingCartController {
     @Operation(summary = "Retrieve Shopping Cart",
             description = "Get the user's shopping cart.")
     @GetMapping
-    public ShoppingCartDto getShoppingCart() {
-        return shoppingCartService.getShoppingCart();
+    public ShoppingCartDto getShoppingCart(Authentication authentication) {
+        return shoppingCartService.getShoppingCart(authentication);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Add Item to Shopping Cart",
             description = "Add a new item to the user's shopping cart.")
     @PostMapping
-    public CartItemDto addItemToCart(@RequestBody AddCartItemRequestDto requestDto) {
-        return shoppingCartService.addToCart(requestDto);
+    public CartItemDto addItemToCart(@RequestBody AddCartItemRequestDto requestDto,
+                                     Authentication authentication) {
+        return shoppingCartService.addToCart(requestDto, authentication);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
