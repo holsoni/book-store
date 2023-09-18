@@ -7,11 +7,13 @@ import com.example.bookstore.dto.book.CreateBookRequestDto;
 import com.example.bookstore.dto.book.UpdateBookRequestDto;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.model.Category;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 
 @Mapper(config = MapperConfiguration.class)
 public interface BookMapper {
@@ -24,6 +26,13 @@ public interface BookMapper {
     Book toModel(UpdateBookRequestDto updateBookRequestDto);
 
     BookDtoWithoutCategoryIds toDtoWithoutCategories(Book book);
+
+    @Named("bookFromId")
+    default Book bookFromId(Long id) {
+        return Optional.ofNullable(id)
+                .map(Book::new)
+                .orElse(null);
+    }
 
     @AfterMapping
     default void setCategoryIds(@MappingTarget Book book, CreateBookRequestDto requestDto) {
