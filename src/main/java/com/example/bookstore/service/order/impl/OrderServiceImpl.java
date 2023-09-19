@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -58,16 +59,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> getOrderHistory(Authentication authentication) {
-        return orderRepository.getAllByUserId(getCurrentUserId(authentication)).stream()
+    public List<OrderDto> getOrderHistory(Authentication authentication, Pageable pageable) {
+        return orderRepository
+                .getAllByUserId(getCurrentUserId(authentication), pageable).stream()
                 .map(orderMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public void updateOrderStatus(Long id,
-                                      UpdateOrderStatusRequest requestDto,
-                                      Authentication authentication) {
+                                  UpdateOrderStatusRequest requestDto,
+                                  Authentication authentication) {
         Order orderFromDb = orderRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Sorry! Can't find order with id " + id));
@@ -80,21 +82,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderItemDto> getOrderItems(Long orderId, Authentication authentication) {
-        return orderItemRepository.getAllByOrderId(orderId).stream()
+    public List<OrderItemDto> getOrderItems(Long orderId,
+                                            Pageable pageable) {
+        return orderItemRepository.getAllByOrderId(orderId, pageable).stream()
                 .map(orderItemMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public OrderItemDto getByIdAndOrderIdForCurrentUser(Long orderId, Long itemId,
-                                                        Authentication authentication) {
-        return orderItemMapper.toDto(orderItemRepository.findByIdAndOrderIdForCurrentUser(
-                orderId, itemId, getCurrentUserId(authentication))
+    public OrderItemDto getByIdAndOrderId(Long orderId, Long itemId) {
+        return orderItemMapper.toDto(orderItemRepository.findByIdAndOrderId(
+                orderId, itemId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Sorry! Can't find order item with id  " + itemId
-                        + ", order id " + orderId
-                        + ", user id " + getCurrentUserId(authentication))));
+                        + ", order id " + orderId)));
     }
 
     private BigDecimal countTotal(Set<OrderItem> orderItems) {
