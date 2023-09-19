@@ -14,7 +14,6 @@ import com.example.bookstore.repository.book.BookRepository;
 import com.example.bookstore.repository.cartitem.CartItemRepository;
 import com.example.bookstore.repository.shoppingcart.ShoppingCartRepository;
 import com.example.bookstore.service.shoppingcart.ShoppingCartService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -58,7 +57,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cartItemRepository.deleteById(id);
     }
 
-    @Transactional
     private ShoppingCart getShoppingCartByUser(User currentUser) {
         return shoppingCartRepository.findByUserId(currentUser.getId())
                 .orElseGet(() -> {
