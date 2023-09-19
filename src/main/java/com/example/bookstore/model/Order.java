@@ -9,9 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,12 +26,12 @@ import org.hibernate.annotations.Where;
 @Data
 @SQLDelete(sql = "UPDATE order SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted=false")
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
     @Enumerated(EnumType.STRING)
@@ -46,12 +45,7 @@ public class Order {
     private String shippingAddress;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "order_item_order",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "order_item_id")
-    )
+    @OneToMany(mappedBy = "order")
     private Set<OrderItem> orderItems = new HashSet<>();
     private boolean isDeleted = false;
 }

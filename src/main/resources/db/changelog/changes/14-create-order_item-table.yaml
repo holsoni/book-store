@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-order-table
+      id: create-order_item-table
       author: holsoni
       changes:
         - createTable:
-            tableName: order
+            tableName: order_item
             columns:
               - column:
                   name: id
@@ -14,28 +14,23 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: user_id
+                  name: order_id
                   type: bigint
                   constraints:
-                    nullable: true
+                    nullable: false
               - column:
-                  name: status
-                  type: varchar(255)
+                  name: book_id
+                  type: bigint
                   constraints:
                     nullable: false
               - column:
-                  name: total
+                  name: quantity
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
                   type: numeric
-                  constraints:
-                    nullable: false
-              - column:
-                  name: order_date
-                  type: timestamp
-                  constraints:
-                    nullable: false
-              - column:
-                  name: shipping_address
-                  type: varchar(255)
                   constraints:
                     nullable: false
               - column:
