@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: insert-user
-      author: holsoni
+      author: sonia_kostashchuk
       changes:
         - insert:
             tableName: users
@@ -20,7 +20,7 @@ databaseChangeLog:
                   value: $2a$12$2gWx8fCmINQ1EZ9cNrMG0.uNl7d63gmb/zTwj6yCdgsPXn5WD4tcW
   - changeSet:
       id: insert-roles
-      author: holsoni
+      author: sonia_kostashchuk
       changes:
         - insert:
             tableName: role

@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: add-id_deleted-column-to-books-table
-      author: holsoni
+      author: sonia_kostashchuk
       changes:
         - addColumn:
             tableName: book
