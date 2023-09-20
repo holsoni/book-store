@@ -7,7 +7,6 @@ import com.example.bookstore.dto.shoppingcart.UpdateCartItemRequestDto;
 import com.example.bookstore.exception.EntityNotFoundException;
 import com.example.bookstore.mapper.CartItemMapper;
 import com.example.bookstore.mapper.ShoppingCartMapper;
-import com.example.bookstore.model.Book;
 import com.example.bookstore.model.CartItem;
 import com.example.bookstore.model.ShoppingCart;
 import com.example.bookstore.model.User;
@@ -31,30 +30,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCartDto getShoppingCart(Authentication authentication) {
         User currentUser = (User) authentication.getPrincipal();
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(currentUser.getId())
-                .orElseGet(() -> {
-                    ShoppingCart newCart = new ShoppingCart();
-                    newCart.setUser(currentUser);
-                    return shoppingCartRepository.save(newCart);
-                });
+        ShoppingCart shoppingCart = getShoppingCartByUser(currentUser);
         return shoppingCartMapper.toDto(shoppingCart);
     }
 
     @Override
     public CartItemDto addToCart(AddCartItemRequestDto requestDto, Authentication authentication) {
         User currentUser = (User) authentication.getPrincipal();
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(currentUser.getId())
-                .orElseGet(() -> {
-                    ShoppingCart newCart = new ShoppingCart();
-                    newCart.setUser(currentUser);
-                    return shoppingCartRepository.save(newCart);
-                });
-        Book book = bookRepository.findById(requestDto.getBookId()).orElseThrow(
-                () -> new EntityNotFoundException("Sorry! There is no book with id "
-                        + requestDto.getBookId()));
-
+        ShoppingCart shoppingCart = getShoppingCartByUser(currentUser);
         CartItem cartItem = cartItemMapper.toEntity(requestDto);
-        cartItem.setBook(book);
         cartItem.setShoppingCart(shoppingCart);
         shoppingCart.getCartItems().add(cartItem);
         return cartItemMapper.toDto(cartItemRepository.save(cartItem));
@@ -73,9 +57,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cartItemRepository.deleteById(id);
     }
 
-    private ShoppingCart create(User user) {
-        ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setUser(user);
-        return shoppingCartRepository.save(shoppingCart);
+    private ShoppingCart getShoppingCartByUser(User currentUser) {
+        return shoppingCartRepository.findByUserId(currentUser.getId())
+                .orElseGet(() -> {
+                    ShoppingCart newCart = new ShoppingCart();
+                    newCart.setUser(currentUser);
+                    return shoppingCartRepository.save(newCart);
+                });
     }
 }

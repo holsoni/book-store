@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-category-table
-      author: holsoni
+      author: sonia_kostashchuk
       changes:
         - createTable:
             tableName: category
