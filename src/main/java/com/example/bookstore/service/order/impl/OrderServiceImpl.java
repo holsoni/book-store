@@ -7,7 +7,6 @@ import com.example.bookstore.dto.order.UpdateOrderStatusRequest;
 import com.example.bookstore.exception.EntityNotFoundException;
 import com.example.bookstore.mapper.OrderItemMapper;
 import com.example.bookstore.mapper.OrderMapper;
-import com.example.bookstore.mapper.ShoppingCartMapper;
 import com.example.bookstore.model.CartItem;
 import com.example.bookstore.model.Order;
 import com.example.bookstore.model.OrderItem;
@@ -34,7 +33,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderServiceImpl implements OrderService {
     private final ShoppingCartRepository cartRepository;
-    private final ShoppingCartMapper cartMapper;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final OrderMapper orderMapper;
@@ -47,13 +45,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Sorry! Can't find shopping cart for user with id "
                                 + getCurrentUserId(authentication)));
-        Order order = new Order();
-        order.setUser((User)authentication.getPrincipal());
-        order.setOrderDate(LocalDateTime.now());
-        order.setStatus(Status.PROCESSING);
-        order.setShippingAddress(requestDto.getShippingAddress());
-        order.setTotal(countTotal(order.getOrderItems()));
-        order.setOrderItems(getOrderItemsFromCart(shoppingCart, order));
+        Order order = getOrder(requestDto, authentication, shoppingCart);
         orderRepository.save(order);
         orderItemRepository.saveAll(order.getOrderItems());
     }
@@ -96,6 +88,19 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Sorry! Can't find order item with id  " + itemId
                         + ", order id " + orderId)));
+    }
+
+    private Order getOrder(PlaceOrderRequestDto requestDto,
+                           Authentication authentication,
+                           ShoppingCart shoppingCart) {
+        Order order = new Order();
+        order.setUser((User) authentication.getPrincipal());
+        order.setOrderDate(LocalDateTime.now());
+        order.setStatus(Status.PROCESSING);
+        order.setShippingAddress(requestDto.getShippingAddress());
+        order.setTotal(countTotal(order.getOrderItems()));
+        order.setOrderItems(getOrderItemsFromCart(shoppingCart, order));
+        return order;
     }
 
     private BigDecimal countTotal(Set<OrderItem> orderItems) {

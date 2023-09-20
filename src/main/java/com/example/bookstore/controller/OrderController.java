@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,6 +28,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Place an order", description = "Place a new order")
     public void placeOrder(@RequestBody PlaceOrderRequestDto requestDto,
                            Authentication authentication) {
@@ -34,6 +36,7 @@ public class OrderController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Get order history",
             description = "Get the order history for the current user")
     public List<OrderDto> getOrderHistory(Authentication authentication,
@@ -42,6 +45,7 @@ public class OrderController {
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Update order status",
             description = "Update the status of an existing order")
     public void updateOrderStatus(@PathVariable Long id,
@@ -51,6 +55,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}/items")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Get order items", description = "Get the items for a specific order")
     public List<OrderItemDto> getOrderItems(@PathVariable Long orderId,
                                             Pageable pageable) {
@@ -58,6 +63,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}/items/{itemId}")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Get order item by ID",
             description = "Get a specific order item by its ID")
     public OrderItemDto getOrderItemById(@PathVariable Long orderId,
