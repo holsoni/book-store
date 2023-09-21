@@ -24,7 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted=false")
-@Table(name = "user")
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
