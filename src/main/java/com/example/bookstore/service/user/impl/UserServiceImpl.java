@@ -1,4 +1,4 @@
-package com.example.bookstore.service.impl;
+package com.example.bookstore.service.user.impl;
 
 import com.example.bookstore.dto.user.UserRegistrationRequestDto;
 import com.example.bookstore.dto.user.UserResponseDto;
@@ -7,17 +7,16 @@ import com.example.bookstore.mapper.UserMapper;
 import com.example.bookstore.model.Role;
 import com.example.bookstore.model.RoleName;
 import com.example.bookstore.model.User;
+import com.example.bookstore.repository.role.RoleRepository;
 import com.example.bookstore.repository.user.UserRepository;
-import com.example.bookstore.service.RoleRepository;
-import com.example.bookstore.service.UserService;
+import com.example.bookstore.service.user.UserService;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -34,7 +33,7 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.getByName(RoleName.ROLE_USER);
         User user = userMapper.toModel(requestDto);
         user.setRoles(Set.of(role));
-        user.setPassword(new BCryptPasswordEncoder().encode(requestDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         return userMapper.toDto(userRepository.save(user));
     }
 }

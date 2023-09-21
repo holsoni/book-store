@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-book-table
+      id: create-cart_item-table
       author: sonia_kostashchuk
       changes:
         - createTable:
-            tableName: book
+            tableName: cart_item
             columns:
               - column:
                   name: id
@@ -14,29 +14,27 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: title
-                  type: varchar(255)
+                  name: shopping_cart_id
+                  type: bigint
+                  constraints:
+                    reference: shopping_cart(id)
+                    foreignKeyName: fk_cart_item_shopping_cart_id
+                    nullable: false
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    reference: book(id)
+                    foreignKeyName: fk_cart_item_book_id
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: integer
                   constraints:
                     nullable: false
               - column:
-                  name: author
-                  type: varchar(255)
+                  name: is_deleted
+                  type: boolean
+                  defaultValueBoolean: false
                   constraints:
                     nullable: false
-              - column:
-                  name: isbn
-                  type: varchar(255)
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: price
-                  type: decimal
-                  constraints:
-                    nullable: false
-              - column:
-                  name: description
-                  type: varchar(255)
-              - column:
-                  name: cover_image
-                  type: varchar(255)

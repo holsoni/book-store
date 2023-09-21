@@ -9,45 +9,39 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
 @Data
-@NoArgsConstructor
-@SQLDelete(sql = "UPDATE book SET is_deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE shopping_cart SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted=false")
-@Table(name = "book")
-public class Book {
+@Table(name = "shopping_cart")
+public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private String title;
-    @Column(nullable = false)
-    private String author;
-    @Column(name = "isbn", nullable = false, unique = true)
-    private String isbn;
-    @Column(nullable = false)
-    private BigDecimal price;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "book_category",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
+            name = "shopping_cart_cart_item",
+            joinColumns = @JoinColumn(name = "shopping_cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "cart_item_id")
     )
-    private Set<Category> categories = new HashSet<>();
-    private String description;
-    private String coverImage;
+    private Set<CartItem> cartItems = new HashSet<>();
+    @Column(nullable = false)
     private boolean isDeleted = false;
-
-    public Book(Long id) {
-        this.id = id;
-    }
 }

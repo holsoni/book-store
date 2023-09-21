@@ -1,4 +1,4 @@
-package com.example.bookstore.service.impl;
+package com.example.bookstore.service.book.impl;
 
 import com.example.bookstore.dto.book.BookDto;
 import com.example.bookstore.dto.book.BookDtoWithoutCategoryIds;
@@ -10,7 +10,7 @@ import com.example.bookstore.mapper.BookMapper;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.repository.book.BookRepository;
 import com.example.bookstore.repository.book.BookSpecificationBuilder;
-import com.example.bookstore.service.BookService;
+import com.example.bookstore.service.book.BookService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
