@@ -49,9 +49,8 @@ public class OrderController {
     @Operation(summary = "Update order status",
             description = "Update the status of an existing order")
     public void updateOrderStatus(@PathVariable Long id,
-                                  @RequestBody UpdateOrderStatusRequest requestDto,
-                                  Authentication authentication) {
-        orderService.updateOrderStatus(id, requestDto, authentication);
+                                  @RequestBody UpdateOrderStatusRequest requestDto) {
+        orderService.updateOrderStatus(id, requestDto);
     }
 
     @GetMapping("/{orderId}/items")

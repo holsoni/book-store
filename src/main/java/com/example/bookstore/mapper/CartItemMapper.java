@@ -19,9 +19,6 @@ public interface CartItemMapper {
     @Mapping(target = "book", source = "bookId", qualifiedByName = "bookFromId")
     CartItem toEntity(AddCartItemRequestDto cartItemRequestDto);
 
-    @Mapping(target = "book", source = "bookId", qualifiedByName = "bookFromId")
-    CartItem toEntity(CartItemDto dto);
-
     @Named("itemFromId")
     default CartItem bookFromId(Long id) {
         return Optional.ofNullable(id)

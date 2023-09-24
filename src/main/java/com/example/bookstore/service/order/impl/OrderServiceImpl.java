@@ -7,7 +7,6 @@ import com.example.bookstore.dto.order.UpdateOrderStatusRequest;
 import com.example.bookstore.exception.EntityNotFoundException;
 import com.example.bookstore.mapper.OrderItemMapper;
 import com.example.bookstore.mapper.OrderMapper;
-import com.example.bookstore.model.CartItem;
 import com.example.bookstore.model.Order;
 import com.example.bookstore.model.OrderItem;
 import com.example.bookstore.model.ShoppingCart;
@@ -45,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Sorry! Can't find shopping cart for user with id "
                                 + getCurrentUserId(authentication)));
-        Order order = getOrder(requestDto, authentication, shoppingCart);
+        Order order = createOrder(requestDto, authentication, shoppingCart);
         orderRepository.save(order);
         orderItemRepository.saveAll(order.getOrderItems());
     }
@@ -60,8 +59,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrderStatus(Long id,
-                                  UpdateOrderStatusRequest requestDto,
-                                  Authentication authentication) {
+                                  UpdateOrderStatusRequest requestDto) {
         Order orderFromDb = orderRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Sorry! Can't find order with id " + id));
@@ -90,16 +88,16 @@ public class OrderServiceImpl implements OrderService {
                         + ", order id " + orderId)));
     }
 
-    private Order getOrder(PlaceOrderRequestDto requestDto,
-                           Authentication authentication,
-                           ShoppingCart shoppingCart) {
+    private Order createOrder(PlaceOrderRequestDto requestDto,
+                              Authentication authentication,
+                              ShoppingCart shoppingCart) {
         Order order = new Order();
         order.setUser((User) authentication.getPrincipal());
         order.setOrderDate(LocalDateTime.now());
         order.setStatus(Status.PROCESSING);
         order.setShippingAddress(requestDto.getShippingAddress());
-        order.setTotal(countTotal(order.getOrderItems()));
         order.setOrderItems(getOrderItemsFromCart(shoppingCart, order));
+        order.setTotal(countTotal(order.getOrderItems()));
         return order;
     }
 
@@ -112,17 +110,9 @@ public class OrderServiceImpl implements OrderService {
 
     private Set<OrderItem> getOrderItemsFromCart(ShoppingCart shoppingCart, Order order) {
         return shoppingCart.getCartItems().stream()
-                .map(item -> mapCartItemToOrderItem(item, order))
+                .map(orderItemMapper::toOrderItem)
+                .peek(item -> item.setOrder(order))
                 .collect(Collectors.toSet());
-    }
-
-    private OrderItem mapCartItemToOrderItem(CartItem cartItem, Order order) {
-        OrderItem orderItem = new OrderItem();
-        orderItem.setOrder(order);
-        orderItem.setBook(cartItem.getBook());
-        orderItem.setPrice(cartItem.getBook().getPrice());
-        orderItem.setQuantity(cartItem.getQuantity());
-        return orderItem;
     }
 
     private Long getCurrentUserId(Authentication authentication) {

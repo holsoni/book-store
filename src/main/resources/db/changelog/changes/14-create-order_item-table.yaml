@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-order_item-table
-      author: holsoni
+      author: s_kostashchuk
       changes:
         - createTable:
             tableName: order_item
