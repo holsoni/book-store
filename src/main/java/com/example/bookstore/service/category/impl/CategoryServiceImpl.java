@@ -6,7 +6,6 @@ import com.example.bookstore.exception.EntityNotFoundException;
 import com.example.bookstore.mapper.CategoryMapper;
 import com.example.bookstore.model.Category;
 import com.example.bookstore.repository.category.CategoryRepository;
-import com.example.bookstore.service.book.BookService;
 import com.example.bookstore.service.category.CategoryService;
 import java.util.List;
 import java.util.stream.Collectors;
