@@ -17,6 +17,7 @@ import org.mapstruct.Named;
 
 @Mapper(config = MapperConfiguration.class)
 public interface BookMapper {
+    @Mapping(target = "title", source = "book.title")
     BookDto toDto(Book book);
 
     @Mapping(target = "id", ignore = true)

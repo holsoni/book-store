@@ -80,9 +80,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderItemDto getByIdAndOrderId(Long orderId, Long itemId) {
+    public OrderItemDto getByIdAndOrderId(Long itemId, Long orderId) {
         return orderItemMapper.toDto(orderItemRepository.findByIdAndOrderId(
-                orderId, itemId)
+                        itemId, orderId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Sorry! Can't find order item with id  " + itemId
                         + ", order id " + orderId)));

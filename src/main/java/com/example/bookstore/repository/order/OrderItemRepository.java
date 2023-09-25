@@ -12,7 +12,5 @@ import org.springframework.stereotype.Repository;
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     List<OrderItem> getAllByOrderId(Long orderId, Pageable pageable);
 
-    @Query("FROM OrderItem i WHERE i.id = :id "
-            + "AND i.order.id = :orderId")
-    Optional<OrderItem> findByIdAndOrderId(Long orderId, Long id);
+    Optional<OrderItem> findByIdAndOrderId(Long id, Long orderId);
 }
