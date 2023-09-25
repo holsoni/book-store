@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
-    private final BookService bookService;
 
     @Override
     public List<CategoryDto> findAll(Pageable pageable) {
