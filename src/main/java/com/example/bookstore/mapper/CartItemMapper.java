@@ -4,8 +4,10 @@ import com.example.bookstore.config.MapperConfiguration;
 import com.example.bookstore.dto.shoppingcart.AddCartItemRequestDto;
 import com.example.bookstore.dto.shoppingcart.CartItemDto;
 import com.example.bookstore.model.CartItem;
+import java.util.Optional;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 @Mapper(config = MapperConfiguration.class, uses = BookMapper.class)
 public interface CartItemMapper {
@@ -16,4 +18,11 @@ public interface CartItemMapper {
 
     @Mapping(target = "book", source = "bookId", qualifiedByName = "bookFromId")
     CartItem toEntity(AddCartItemRequestDto cartItemRequestDto);
+
+    @Named("itemFromId")
+    default CartItem bookFromId(Long id) {
+        return Optional.ofNullable(id)
+                .map(CartItem::new)
+                .orElse(null);
+    }
 }
