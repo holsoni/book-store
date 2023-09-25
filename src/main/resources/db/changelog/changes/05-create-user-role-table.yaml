@@ -11,7 +11,7 @@ databaseChangeLog:
                   type: bigint
                   autoIncrement: true
                   constraints:
-                    reference: user(id)
+                    reference: users(id)
                     foreignKeyName: fk_user_role_user_id
                     primaryKey: true
                     nullable: false

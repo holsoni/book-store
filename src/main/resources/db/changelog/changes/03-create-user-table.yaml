@@ -4,7 +4,7 @@ databaseChangeLog:
       author: sonia_kostashchuk
       changes:
         - createTable:
-            tableName: user
+            tableName: users
             columns:
               - column:
                   name: id
