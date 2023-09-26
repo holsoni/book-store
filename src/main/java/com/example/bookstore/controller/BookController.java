@@ -9,6 +9,7 @@ import com.example.bookstore.service.book.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,7 @@ public class BookController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Create new books", description = "Add new book to the store")
-    public BookDto create(@RequestBody CreateBookRequestDto requestDto) {
+    public BookDto create(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.create(requestDto);
     }
 
