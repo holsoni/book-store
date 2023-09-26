@@ -17,7 +17,6 @@ import org.mapstruct.Named;
 
 @Mapper(config = MapperConfiguration.class)
 public interface BookMapper {
-    @Mapping(target = "title", source = "book.title")
     BookDto toDto(Book book);
 
     @Mapping(target = "id", ignore = true)
@@ -47,8 +46,8 @@ public interface BookMapper {
     }
 
     @AfterMapping
-    default void setCategoryIds(@MappingTarget BookDto dto, Book book) {
-        dto.setCategoryIds(book.getCategories().stream()
+    default void setCategoryIds(@MappingTarget BookDto bookDto, Book book) {
+        bookDto.setCategoryIds(book.getCategories().stream()
                 .map(Category::getId)
                 .collect(Collectors.toSet()));
     }
