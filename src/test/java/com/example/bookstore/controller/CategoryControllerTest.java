@@ -58,7 +58,7 @@ class CategoryControllerTest {
             new CategoryCreateRequestDto()
                     .setName("Fantasy Kids")
                     .setDescription("Very cool category");
-    private static final CategoryCreateRequestDto INVALID_CREATE_CATEGORY_DTO =
+    private static final CategoryCreateRequestDto INVALID_CREATE_CATEGORY_DTO_EMPTY_TITLE =
             new CategoryCreateRequestDto()
             .setName("-")
             .setDescription("Very cool category");
@@ -107,7 +107,7 @@ class CategoryControllerTest {
     @Test
     @DisplayName("Testing creation of invalid book")
     void createCategory_TitleIsEmpty_ThrowsException() throws Exception {
-        String jsonRequest = objectMapper.writeValueAsString(INVALID_CREATE_CATEGORY_DTO);
+        String jsonRequest = objectMapper.writeValueAsString(INVALID_CREATE_CATEGORY_DTO_EMPTY_TITLE);
         MvcResult result = mockMvc.perform(post("/books")
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON)

@@ -78,10 +78,10 @@ class BookControllerTest {
                     .setCoverImage("cover.jpeg")
                     .setCategoryIds(Set.of(VALID_ID));
 
-    private static final CreateBookRequestDto INVALID_CREATE_BOOK_REQUEST_DTO =
+    private static final CreateBookRequestDto INVALID_CREATE_BOOK_REQUEST_DTO_EMPTY_TITLE =
             new CreateBookRequestDto()
-                    .setTitle("h")
-                    .setAuthor("J")
+                    .setTitle("-")
+                    .setAuthor("Joan")
                     .setIsbn("978-3-16-148410-0")
                     .setPrice(BigDecimal.valueOf(-50))
                     .setDescription("Very cool book")
@@ -160,7 +160,8 @@ class BookControllerTest {
     @Test
     @DisplayName("Testing creation of invalid book")
     void createBook_TitleIsNullAndPriceLessThanNull_ThrowsException() throws Exception {
-        String jsonRequest = objectMapper.writeValueAsString(INVALID_CREATE_BOOK_REQUEST_DTO);
+        String jsonRequest = objectMapper
+                .writeValueAsString(INVALID_CREATE_BOOK_REQUEST_DTO_EMPTY_TITLE);
         MvcResult result = mockMvc.perform(post("/books")
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON)
