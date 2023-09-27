@@ -107,7 +107,8 @@ class CategoryControllerTest {
     @Test
     @DisplayName("Testing creation of invalid book")
     void createCategory_TitleIsEmpty_ThrowsException() throws Exception {
-        String jsonRequest = objectMapper.writeValueAsString(INVALID_CREATE_CATEGORY_DTO_EMPTY_TITLE);
+        String jsonRequest = objectMapper
+                .writeValueAsString(INVALID_CREATE_CATEGORY_DTO_EMPTY_TITLE);
         MvcResult result = mockMvc.perform(post("/books")
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON)
