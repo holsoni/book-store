@@ -14,6 +14,9 @@ import com.example.bookstore.repository.book.BookRepository;
 import com.example.bookstore.repository.cartitem.CartItemRepository;
 import com.example.bookstore.repository.shoppingcart.ShoppingCartRepository;
 import com.example.bookstore.service.shoppingcart.ShoppingCartService;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -40,7 +43,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCart shoppingCart = getShoppingCartByUser(currentUser);
         CartItem cartItem = cartItemMapper.toEntity(requestDto);
         cartItem.setShoppingCart(shoppingCart);
-        shoppingCart.getCartItems().add(cartItem);
+        List<CartItem> cartItemList = new ArrayList<>(shoppingCart.getCartItems());
+        cartItemList.add(cartItem);
+        shoppingCart.setCartItems(new HashSet<>(cartItemList));
         return cartItemMapper.toDto(cartItemRepository.save(cartItem));
     }
 
