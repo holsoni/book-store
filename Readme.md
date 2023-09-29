@@ -3,14 +3,17 @@
 
 ___
 
-<div class="nav-links">
+<div align="center">
     <a href="#introduction">Introduction</a> |  
     <a href="#description">Project Description</a> |
     <a href="#feature">Features</a> |
     <a href="#starting">Getting Started</a> | 
-    <a href="#contributing">Contributing & Support</a> | 
+    <a href="#contributing">Contributing & Support</a>
 </div>
+
+
 <div id="introduction">
+<br>
     Hello everyone! This is Spring Boot application for an Online Book Store.
 
    My Online Book Store application is designed to provide a seamless 
