@@ -69,37 +69,37 @@ Manager (Admin): Someone responsible for organizing books and monitoring sales.
 
 #### Let's take a look on each endpoint!
 
-| Controller Functionality                                      | HTTP Method | Endpoint                               |
+  | Controller Functionality                                      | HTTP Method | Endpoint                               |
   | ------------------------------------------------------------ | :----------:| --------------------------------------- |
-| **Available for users with role USER**                        |
-| Allows non-authenticated users to register a new account.     | POST        | /api/**auth**/register                     |
-| Allows non-authenticated users to log in to an existing account. | POST      | /api/**auth**/login                        |
-|                                                               |             |                                         |
-| **Available for users with role USER**                        |             |                                         |
-| Allows users to retrieve a list of all books available in the store. | GET     | /api/books                             |
-| Allows users to retrieve detailed information about a specific book by providing its ID. | GET | /api/**books**/{id}                   |
-| Allows users to retrieve a list of all book categories.       | GET         | /api/**categories**                       |
-| Allows users to retrieve detailed information about a specific book category by providing its ID. | GET | /api/**categories**/{id}         |
-| Allows users to retrieve a list of books that belong to a specific category by providing the category's ID. | GET | /api/**categories**/{id}/books |
-| Allows users to retrieve the contents of their shopping cart. | GET         | /api/**cart**                               |
-| Allows users to add a book to their shopping cart.            | POST        | /api/**cart**                               |
-| Allows users to update the quantity or details of an item in their shopping cart. | PUT | /api/**cart**/cart-items/{cartItemId} |
-| Allows users to remove an item from their shopping cart.      | DELETE      | /api/**cart**/cart-items/{cartItemId}    |
-| Allows users to review and manage the contents of their shopping cart. | GET | /api/**cart**/review            |
-| Allows users to complete purchases and view their order history. | GET | /api/**orders**/history       |
-| Allows users to retrieve a list of their past orders.         | GET         | /api/**orders**                             |
-| Allows users to place a new order.                            | POST        | /api/**orders**                             |
-| Allows users to retrieve a list of items within a specific order by providing the order's ID. | GET | /api/**orders**/{orderId}/items |
-| Allows users to retrieve detailed information about a specific item within an order by providing both the order's ID and the item's ID. | GET | /api/orders/{orderId}/items/{itemId} |
-|                                                               |             |                                         |
-| **Available for users with role ADMIN**                       |             |                                         |
-| Allows administrators to add a new book to the store.         | POST        | /api/**books**/                            |
-| Allows administrators to update the details of a specific book by providing its ID. | PUT | /api/**books**/{id}                   |
-| Allows administrators to remove a specific book from the store by providing its ID. | DELETE | /api/**books**/{id}              |
-| Allows administrators to add a new book category.             | POST        | /api/**categories**/                      |
-| Allows administrators to update the details of a specific book category by providing its ID. | PUT | /api/**categories**/{id}        |
-| Allows administrators to remove a specific book category by providing its ID. | DELETE | /api/**categories**/{id}       |
-| Allows administrators to update the status of a specific order by providing its ID. | PATCH | /api/**orders**/{id}            |
+  | **Available for users with role USER**                        |                                                      
+  | Allows non-authenticated users to register a new account.     | POST        | /api/**auth**/register                     |
+  | Allows non-authenticated users to log in to an existing account. | POST      | /api/**auth**/login                        |
+  |                                                               |             |                                         |
+  | **Available for users with role USER**                        |             |                                         |
+  | Allows users to retrieve a list of all books available in the store. | GET     | /api/books                             |
+  | Allows users to retrieve detailed information about a specific book by providing its ID. | GET | /api/**books**/{id}                   |
+  | Allows users to retrieve a list of all book categories.       | GET         | /api/**categories**                       |
+  | Allows users to retrieve detailed information about a specific book category by providing its ID. | GET | /api/**categories**/{id}         |
+  | Allows users to retrieve a list of books that belong to a specific category by providing the category's ID. | GET | /api/**categories**/{id}/books |
+  | Allows users to retrieve the contents of their shopping cart. | GET         | /api/**cart**                               |
+  | Allows users to add a book to their shopping cart.            | POST        | /api/**cart**                               |
+  | Allows users to update the quantity or details of an item in their shopping cart. | PUT | /api/**cart**/cart-items/{cartItemId} |
+  | Allows users to remove an item from their shopping cart.      | DELETE      | /api/**cart**/cart-items/{cartItemId}    |
+  | Allows users to review and manage the contents of their shopping cart. | GET | /api/**cart**/review            |
+  | Allows users to complete purchases and view their order history. | GET | /api/**orders**/history       |
+  | Allows users to retrieve a list of their past orders.         | GET         | /api/**orders**                             |
+  | Allows users to place a new order.                            | POST        | /api/**orders**                             |
+  | Allows users to retrieve a list of items within a specific order by providing the order's ID. | GET | /api/**orders**/{orderId}/items |
+  | Allows users to retrieve detailed information about a specific item within an order by providing both the order's ID and the item's ID. | GET | /api/orders/{orderId}/items/{itemId} |
+  |                                                               |             |                                         |
+  | **Available for users with role ADMIN**                       |             |                                         |
+  | Allows administrators to add a new book to the store.         | POST        | /api/**books**/                            |
+  | Allows administrators to update the details of a specific book by providing its ID. | PUT | /api/**books**/{id}                   |
+  | Allows administrators to remove a specific book from the store by providing its ID. | DELETE | /api/**books**/{id}              |
+  | Allows administrators to add a new book category.             | POST        | /api/**categories**/                      |
+  | Allows administrators to update the details of a specific book category by providing its ID. | PUT | /api/**categories**/{id}        |
+  | Allows administrators to remove a specific book category by providing its ID. | DELETE | /api/**categories**/{id}       |
+  | Allows administrators to update the status of a specific order by providing its ID. | PATCH | /api/**orders**/{id}            |
 
 > *Text in bold - is naming of controllers, that contains that endpoint!*
 <hr>
