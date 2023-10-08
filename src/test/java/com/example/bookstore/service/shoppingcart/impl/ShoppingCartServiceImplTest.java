@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -29,6 +28,7 @@ import com.example.bookstore.repository.shoppingcart.ShoppingCartRepository;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -90,10 +90,6 @@ class ShoppingCartServiceImplTest {
     private static final Authentication AUTHENTICATION =
             mock(Authentication.class);
 
-    static {
-        VALID_CART_ITEM.setShoppingCart(VALID_SHOPPING_CART);
-    }
-
     @Mock
     private ShoppingCartRepository shoppingCartRepository;
     @Mock
@@ -105,6 +101,11 @@ class ShoppingCartServiceImplTest {
 
     @InjectMocks
     private ShoppingCartServiceImpl shoppingCartService;
+
+    @BeforeAll
+    public static void setUp() {
+        VALID_CART_ITEM.setShoppingCart(VALID_SHOPPING_CART);
+    }
 
     @Test
     @DisplayName("Test retrieving an existing shopping cart for the user")
@@ -118,8 +119,8 @@ class ShoppingCartServiceImplTest {
 
         ShoppingCartDto actual = shoppingCartService.getShoppingCart(AUTHENTICATION);
 
-        verify(shoppingCartRepository, times(1)).findByUserId(VALID_USER.getId());
-        verify(shoppingCartMapper, times(1)).toDto(VALID_SHOPPING_CART);
+        verify(shoppingCartRepository).findByUserId(VALID_USER.getId());
+        verify(shoppingCartMapper).toDto(VALID_SHOPPING_CART);
 
         assertNotNull(actual);
         assertEquals(SHOPPING_CART_DTO, actual);
@@ -141,9 +142,9 @@ class ShoppingCartServiceImplTest {
         assertNotNull(actual);
         assertEquals(CART_ITEM_DTO, actual);
 
-        verify(AUTHENTICATION, times(1)).getPrincipal();
-        verify(shoppingCartRepository, times(1)).findByUserId(VALID_USER.getId());
-        verify(cartItemRepository, times(1)).save(VALID_CART_ITEM);
+        verify(AUTHENTICATION).getPrincipal();
+        verify(shoppingCartRepository).findByUserId(VALID_USER.getId());
+        verify(cartItemRepository).save(VALID_CART_ITEM);
     }
 
     @Test
@@ -155,8 +156,8 @@ class ShoppingCartServiceImplTest {
         shoppingCartService.updateCartItem(VALID_CART_ITEM.getId(),
                 VALID_UPDATE_ITEM_REQUEST);
 
-        verify(cartItemRepository, times(1)).findById(VALID_CART_ITEM.getId());
-        verify(cartItemRepository, times(1)).save(VALID_CART_ITEM);
+        verify(cartItemRepository).findById(VALID_CART_ITEM.getId());
+        verify(cartItemRepository).save(VALID_CART_ITEM);
         verifyNoMoreInteractions(cartItemRepository);
 
     }
@@ -181,7 +182,7 @@ class ShoppingCartServiceImplTest {
         doNothing().when(cartItemRepository).deleteById(VALID_CART_ITEM.getId());
         shoppingCartService.deleteCartItem(VALID_CART_ITEM.getId());
 
-        verify(cartItemRepository, times(1)).deleteById(VALID_ID);
+        verify(cartItemRepository).deleteById(VALID_ID);
         verifyNoMoreInteractions(cartItemRepository);
     }
 }

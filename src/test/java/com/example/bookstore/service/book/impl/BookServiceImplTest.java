@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -87,7 +86,7 @@ class BookServiceImplTest {
 
         BookDto actual = bookService.create(VALID_CREATE_BOOK_REQUEST_DTO);
         assertEquals(VALID_BOOK_DTO, actual);
-        verify(bookRepository, times(1)).save(VALID_BOOK);
+        verify(bookRepository).save(VALID_BOOK);
         verifyNoMoreInteractions(bookRepository);
     }
 
@@ -100,7 +99,7 @@ class BookServiceImplTest {
         List<BookDtoWithoutCategoryIds> actual = bookService.getAll(VALID_PAGEABLE);
 
         assertEquals(1, actual.size());
-        verify(bookRepository, times(1)).findAll(VALID_PAGEABLE);
+        verify(bookRepository).findAll(VALID_PAGEABLE);
         verifyNoMoreInteractions(bookRepository);
     }
 
@@ -113,7 +112,7 @@ class BookServiceImplTest {
         BookDto actual = bookService.findById(VALID_ID);
 
         assertEquals(VALID_BOOK_DTO, actual);
-        verify(bookRepository, times(1)).findById(VALID_ID);
+        verify(bookRepository).findById(VALID_ID);
         verifyNoMoreInteractions(bookRepository);
     }
 
@@ -129,7 +128,7 @@ class BookServiceImplTest {
         String actual = exception.getMessage();
 
         assertEquals(expected, actual);
-        verify(bookRepository, times(1)).findById(INVALID_ID);
+        verify(bookRepository).findById(INVALID_ID);
         verifyNoMoreInteractions(bookRepository);
     }
 
@@ -139,7 +138,7 @@ class BookServiceImplTest {
         doNothing().when(bookRepository).deleteById(VALID_ID);
         bookService.deleteById(VALID_ID);
 
-        verify(bookRepository, times(1)).deleteById(VALID_ID);
+        verify(bookRepository).deleteById(VALID_ID);
         verifyNoMoreInteractions(bookRepository);
     }
 
@@ -156,8 +155,8 @@ class BookServiceImplTest {
                 .getBooksByCategoryId(VALID_ID, VALID_PAGEABLE);
 
         assertEquals(1, actual.size());
-        verify(bookRepository, times(1)).findAllByCategoriesId(VALID_ID, VALID_PAGEABLE);
-        verify(bookMapper, times(1)).toDtoWithoutCategories(any(Book.class));
+        verify(bookRepository).findAllByCategoriesId(VALID_ID, VALID_PAGEABLE);
+        verify(bookMapper).toDtoWithoutCategories(any(Book.class));
         verifyNoMoreInteractions(bookRepository);
         verifyNoMoreInteractions(bookMapper);
     }
