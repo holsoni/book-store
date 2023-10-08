@@ -44,11 +44,13 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    protected ErrorResponse handleEntityNotFound(EntityNotFoundException ex) {
-        return new ErrorResponse(
+    protected ResponseEntity<ErrorResponse> handleEntityNotFound(EntityNotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
                 List.of(ex.getMessage()),
-                HttpStatus.BAD_REQUEST,
-                LocalDateTime.now());
+                HttpStatus.NOT_FOUND,
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
     private String getErrorMessage(ObjectError e) {

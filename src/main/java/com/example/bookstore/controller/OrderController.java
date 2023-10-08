@@ -67,6 +67,6 @@ public class OrderController {
             description = "Get a specific order item by its ID")
     public OrderItemDto getOrderItemById(@PathVariable Long orderId,
                                          @PathVariable Long itemId) {
-        return orderService.getByIdAndOrderId(orderId, itemId);
+        return orderService.getByIdAndOrderId(itemId, orderId);
     }
 }

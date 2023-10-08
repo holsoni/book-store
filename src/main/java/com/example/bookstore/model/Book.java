@@ -15,12 +15,14 @@ import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
 @Data
 @NoArgsConstructor
+@Accessors(chain = true)
 @SQLDelete(sql = "UPDATE book SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted=false")
 @Table(name = "book")

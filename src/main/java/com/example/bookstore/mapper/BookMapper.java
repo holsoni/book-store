@@ -44,4 +44,11 @@ public interface BookMapper {
                 })
                 .collect(Collectors.toSet()));
     }
+
+    @AfterMapping
+    default void setCategoryIds(@MappingTarget BookDto bookDto, Book book) {
+        bookDto.setCategoryIds(book.getCategories().stream()
+                .map(Category::getId)
+                .collect(Collectors.toSet()));
+    }
 }

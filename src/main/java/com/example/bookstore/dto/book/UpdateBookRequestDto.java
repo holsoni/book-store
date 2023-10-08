@@ -6,10 +6,12 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Set;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.ISBN;
 import org.hibernate.validator.constraints.Length;
 
 @Data
+@Accessors(chain = true)
 public class UpdateBookRequestDto {
     @NotNull
     @Length(min = 5, max = 200)
