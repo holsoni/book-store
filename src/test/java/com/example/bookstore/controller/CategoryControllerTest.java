@@ -37,9 +37,9 @@ class CategoryControllerTest {
     private static final Long VALID_ID = 1L;
     private static final Long INVALID_ID = 200L;
     private static final String INSERT_CATEGORY_SCRIPT =
-            "classpath:database/scripts/insert-category.sql";
+            "classpath:database/book/insert-category.sql";
     private static final String DELETE_CATEGORIES_SCRIPT =
-            "classpath:database/scripts/delete-all-from-category.sql";
+            "classpath:database/book/delete-all-from-category.sql";
 
     private static final Category VALID_CATEGORY = new Category()
             .setId(VALID_ID)

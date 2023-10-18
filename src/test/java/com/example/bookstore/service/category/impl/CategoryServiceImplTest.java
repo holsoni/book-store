@@ -3,7 +3,6 @@ package com.example.bookstore.service.category.impl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -62,7 +61,7 @@ class CategoryServiceImplTest {
         List<CategoryDto> actual = categoryService.findAll(VALID_PAGEABLE);
 
         assertEquals(1, actual.size());
-        verify(categoryRepository, times(1)).findAll(VALID_PAGEABLE);
+        verify(categoryRepository).findAll(VALID_PAGEABLE);
         verifyNoMoreInteractions(categoryRepository);
     }
 
@@ -75,7 +74,7 @@ class CategoryServiceImplTest {
         CategoryDto actual = categoryService.getById(VALID_ID);
 
         assertEquals(VALID_CATEGORY_DTO, actual);
-        verify(categoryRepository, times(1)).findById(VALID_ID);
+        verify(categoryRepository).findById(VALID_ID);
         verifyNoMoreInteractions(categoryRepository);
     }
 
@@ -89,7 +88,7 @@ class CategoryServiceImplTest {
 
         CategoryDto actual = categoryService.save(VALID_CREATE_CATEGORY_DTO);
         assertEquals(VALID_CATEGORY_DTO, actual);
-        verify(categoryRepository, times(1)).save(VALID_CATEGORY);
+        verify(categoryRepository).save(VALID_CATEGORY);
         verifyNoMoreInteractions(categoryRepository);
     }
 
@@ -99,7 +98,7 @@ class CategoryServiceImplTest {
         doNothing().when(categoryRepository).deleteById(VALID_ID);
         categoryService.deleteById(VALID_ID);
 
-        verify(categoryRepository, times(1)).deleteById(VALID_ID);
+        verify(categoryRepository).deleteById(VALID_ID);
         verifyNoMoreInteractions(categoryRepository);
     }
 }

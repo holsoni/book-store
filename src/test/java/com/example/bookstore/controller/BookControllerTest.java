@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Set;
-import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,17 +43,17 @@ class BookControllerTest {
     private static final Long VALID_ID = 1L;
     private static final Long INVALID_ID = 200L;
     private static final String INSERT_CATEGORY_SCRIPT =
-            "classpath:database/scripts/insert-category.sql";
+            "classpath:database/book/insert-category.sql";
     private static final String INSERT_BOOK_SCRIPT =
-            "classpath:database/scripts/insert-book.sql";
+            "classpath:database/book/insert-book.sql";
     private static final String INSERT_BOOK_CATEGORY_SCRIPT =
-            "classpath:database/scripts/insert-book-category-relations-for-harry_potter.sql";
+            "classpath:database/book/insert-book-category-relations-for-harry_potter.sql";
     private static final String DELETE_CATEGORIES_SCRIPT =
-            "classpath:database/scripts/delete-all-from-category.sql";
+            "classpath:database/book/delete-all-from-category.sql";
     private static final String DELETE_BOOKS_SCRIPT =
-            "classpath:database/scripts/delete-all-from-books.sql";
+            "classpath:database/book/delete-all-from-books.sql";
     private static final String DELETE_BOOK_CATEGORY_SCRIPT =
-            "classpath:database/scripts/delete-all-from-book_category.sql";
+            "classpath:database/book/delete-all-from-book_category.sql";
     private static final Category VALID_CATEGORY = new Category()
             .setId(VALID_ID)
             .setName("Fantasy")
@@ -119,8 +118,7 @@ class BookControllerTest {
     private ObjectMapper objectMapper;
 
     @BeforeAll
-    static void beforeAll(@Autowired DataSource dataSource,
-                          @Autowired WebApplicationContext applicationContext)
+    static void beforeAll(@Autowired WebApplicationContext applicationContext)
             throws SQLException {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(applicationContext)
